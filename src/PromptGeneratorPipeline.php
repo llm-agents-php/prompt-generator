@@ -26,11 +26,13 @@ final class PromptGeneratorPipeline implements PromptGeneratorPipelineInterface
         }
 
         return $this->interceptors[$this->offset]->generate(
-            agent: $agent,
-            userPrompt: $userPrompt,
-            prompt: $prompt,
-            context: $context,
-            next: $this->next(),
+            input: new PromptGeneratorInput(
+                agent: $agent,
+                userPrompt: $userPrompt,
+                prompt: $prompt,
+                context: $context,
+            ),
+            next: new InterceptorHandler(generator: $this->next()),
         );
     }
 
