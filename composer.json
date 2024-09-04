@@ -1,0 +1,30 @@
+{
+  "name": "llm-agents/prompt-generator",
+  "description": "Prompt generator for LLM agents with interceptors",
+  "license": "MIT",
+  "require": {
+    "php": "^8.3",
+    "llm-agents/agents": "^1.0",
+    "llm-agents/json-schema-mapper": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.3",
+    "spiral/boot": "^3.13",
+    "illuminate/support": "^11.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "LLM\\Agents\\PromptGenerator\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "LLM\\Agents\\PromptGenerator\\Tests\\": "tests/src"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
