@@ -217,6 +217,52 @@ Then, add your custom interceptor to the pipeline:
 $generator = $generator->withInterceptor(new ContextAwarePromptInjector(...));
 ```
 
+Check out this UML sequence diagram to see how the prompt generation process works with the interceptors:
+
+```mermaid
+sequenceDiagram
+    participant AE as AgentExecutor
+    participant PGP as PromptGeneratorPipeline
+    participant IG as InstructionGenerator
+    participant AMI as AgentMemoryInjector
+    participant LAI as LinkedAgentsInjector
+    participant UPI as UserPromptInjector
+    participant P as Prompt
+
+    AE->>PGP: generate(agent, userPrompt, context)
+    activate PGP
+    PGP->>IG: generate(input, next)
+    activate IG
+    IG->>P: add system instruction message to prompt
+    P-->>IG: updatedPrompt
+    IG-->>PGP: updatedInput
+    deactivate IG
+
+    PGP->>AMI: generate(input, next)
+    activate AMI
+    AMI->>P: add agent memory message to prompt
+    P-->>AMI: updatedPrompt
+    AMI-->>PGP: updatedInput
+    deactivate AMI
+
+    PGP->>LAI: generate(input, next)
+    activate LAI
+    LAI->>P: add linked agents info message to prompt
+    P-->>LAI: updatedPrompt
+    LAI-->>PGP: updatedInput
+    deactivate LAI
+
+    PGP->>UPI: generate(input, next)
+    activate UPI
+    UPI->>P: add user message to prompt
+    P-->>UPI: updatedPrompt
+    UPI-->>PGP: updatedInput
+    deactivate UPI
+
+    PGP-->>AE: finalGeneratedPrompt
+    deactivate PGP
+```
+
 ## Implementing PromptContextInterface
 
 The `PromptGeneratorInput` includes a `context` property of type `PromptContextInterface`. This interface allows you to
