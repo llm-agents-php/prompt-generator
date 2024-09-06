@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LLM\Agents\PromptGenerator\Interceptors;
 
 use LLM\Agents\Agent\AgentRepositoryInterface;
+use LLM\Agents\Agent\HasLinkedAgentsInterface;
 use LLM\Agents\LLM\Prompt\Chat\MessagePrompt;
 use LLM\Agents\LLM\Prompt\Chat\Prompt;
 use LLM\Agents\LLM\Prompt\Chat\PromptInterface;
@@ -26,6 +27,10 @@ final readonly class LinkedAgentsInjector implements PromptInterceptorInterface
         InterceptorHandler $next,
     ): PromptInterface {
         \assert($input->prompt instanceof Prompt);
+
+        if (!$input->agent instanceof HasLinkedAgentsInterface) {
+            return $next($input);
+        }
 
         if (\count($input->agent->getAgents()) === 0) {
             return $next($input);

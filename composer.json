@@ -4,7 +4,7 @@
   "license": "MIT",
   "require": {
     "php": "^8.3",
-    "llm-agents/agents": "^1.2",
+    "llm-agents/agents": "dev-feature/embeddings as 1.0",
     "llm-agents/json-schema-mapper": "^1.0"
   },
   "require-dev": {
