@@ -1,6 +1,6 @@
 # LLM Agents Prompt Generator
 
-[![PHP](https://img.shields.io/packagist/php-v/llm-agents-php/agent-site-status-checker.svg?style=flat-square)](https://packagist.org/packages/llm-agents/prompt-generator)
+[![PHP](https://img.shields.io/packagist/php-v/llm-agents-php/prompt-generator.svg?style=flat-square)](https://packagist.org/packages/llm-agents/prompt-generator)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/llm-agents/prompt-generator.svg?style=flat-square)](https://packagist.org/packages/llm-agents/prompt-generator)
 [![Total Downloads](https://img.shields.io/packagist/dt/llm-agents/prompt-generator.svg?style=flat-square)](https://packagist.org/packages/llm-agents/prompt-generator)
 
