@@ -11,8 +11,12 @@ use LLM\Agents\PromptGenerator\InterceptorHandler;
 use LLM\Agents\PromptGenerator\PromptGeneratorInput;
 use LLM\Agents\PromptGenerator\PromptInterceptorInterface;
 
-final class InstructionGenerator implements PromptInterceptorInterface
+final readonly class InstructionGenerator implements PromptInterceptorInterface
 {
+    public function __construct(
+        private string $outputFormat = 'markdown',
+    ) {}
+
     public function generate(
         PromptGeneratorInput $input,
         InterceptorHandler $next,
@@ -24,17 +28,23 @@ final class InstructionGenerator implements PromptInterceptorInterface
                 $input->prompt
                     ->withAddedMessage(
                         MessagePrompt::system(
-                            prompt: <<<'PROMPT'
-{prompt}
-Important rules:
-- always response in markdown format
-- think before responding to user
-PROMPT,
+                            prompt: '{instruction}',
+                            with: ['instruction'],
+                        ),
+                    )
+                    ->withAddedMessage(
+                        MessagePrompt::system(
+                            prompt: 'Output format instruction: {output_format_instruction}',
+                            with: ['output_format_instruction'],
                         ),
                     )
                     ->withValues(
                         values: [
-                            'prompt' => $input->agent->getInstruction(),
+                            'instruction' => $input->agent->getInstruction(),
+                            'output_format_instruction' => \sprintf(
+                                'always response in `%s` format',
+                                $this->outputFormat,
+                            ),
                         ],
                     ),
             ),
