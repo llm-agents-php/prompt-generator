@@ -20,6 +20,7 @@ final readonly class LinkedAgentsInjector implements PromptInterceptorInterface
     public function __construct(
         private AgentRepositoryInterface $agents,
         private SchemaMapperInterface $schemaMapper,
+        private string $agentKey = 'ask_agent',
     ) {}
 
     public function generate(
@@ -52,14 +53,16 @@ final readonly class LinkedAgentsInjector implements PromptInterceptorInterface
                         MessagePrompt::system(
                             prompt: <<<'PROMPT'
 There are agents {linked_agents} associated with you. You can ask them for help if you need it.
-Use the `ask_agent` tool and provide the agent key.
+Use the `{ask_agent_tool}` tool and provide the agent key.
 Always follow rules:
 - Don't make up the agent key. Use only the ones from the provided list.
 PROMPT,
+                            with: ['linked_agents', 'ask_agent_tool'],
                         ),
                     )
                     ->withValues(
                         values: [
+                            'ask_agent_tool' => $this->agentKey,
                             'linked_agents' => \implode(
                                 PHP_EOL,
                                 \array_map(

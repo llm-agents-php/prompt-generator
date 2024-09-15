@@ -22,10 +22,12 @@ final class UserPromptInjector implements PromptInterceptorInterface
         return $next(
             input: $input->withPrompt(
                 $input->prompt->withAddedMessage(
-                    MessagePrompt::user('{user_prompt}')
-                        ->withValues([
-                            'user_prompt' => (string) $input->userPrompt,
-                        ]),
+                    MessagePrompt::user(
+                        prompt: '{user_prompt}',
+                        with: ['user_prompt'],
+                    )->withValues([
+                        'user_prompt' => (string) $input->userPrompt,
+                    ]),
                 ),
             ),
         );
